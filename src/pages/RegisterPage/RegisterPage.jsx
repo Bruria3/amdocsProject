@@ -9,6 +9,7 @@ function RegisterPage() {
         firstName: '',
         lastName: '',
         username: '',
+        // email:'',
         password: ''
     });
     const [submitted, setSubmitted] = useState(false);
@@ -35,7 +36,7 @@ function RegisterPage() {
     }
 
     return (
-        <div className="col-lg-8 offset-lg-2">
+        <div className="wrapper">
             <h2>Register</h2>
             <form name="form" onSubmit={handleSubmit}>
                 <div className="form-group">
@@ -52,6 +53,13 @@ function RegisterPage() {
                         <div className="invalid-feedback">Last Name is required</div>
                     }
                 </div>
+                {/* <div className="form-group">
+                    <label>Email</label>
+                    <input type="email" name="email" value={email} onChange={handleChange} className={'form-control' + (submitted && !email ? ' is-invalid' : '')} />
+                    {submitted && !email &&
+                        <div className="invalid-feedback">Email is required</div>
+                    }
+                </div> */}
                 <div className="form-group">
                     <label>Username</label>
                     <input type="text" name="username" value={user.username} onChange={handleChange} className={'form-control' + (submitted && !user.username ? ' is-invalid' : '')} />
@@ -75,6 +83,7 @@ function RegisterPage() {
                 </div>
             </form>
         </div>
+        
     );
 }
 
