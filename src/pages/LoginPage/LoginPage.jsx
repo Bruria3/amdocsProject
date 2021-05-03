@@ -40,7 +40,7 @@ function LoginPage() {
     }
 
     return (
-        <div className="col-md-8 offset-md-2">
+        <div className="col-md-8">
             <div className="wrp-login">
                 <div className="wrp-form">
                     <h2 className="heading">Login</h2>

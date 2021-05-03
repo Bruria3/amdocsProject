@@ -1,23 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import useForm from './useForm'
+import './register-page.scss'
 import { userActions } from '../../_actions';
-import validate from "./LoginFormValidationRules";
+// import { validate } from 'json-schema';
+import validate from './LoginFormValidationRules'
 
 function RegisterPage() {
-    const {submitted, values, errors, handleChange, handleSubmit } = useForm(
-        login,
-        validate
-    );
-    // const [user, setUser] = useState({
-    //     firstName: '',
-    //     lastName: '',
-    //     username: '',
-    //     // email:'',
-    //     password: ''
-    // });
-    //const [submitted, setSubmitted] = useState(false);
+    const [user, setUser] = useState({
+        firstName: '',
+        lastName: '',
+        username: '',
+        password: ''
+    });
+    const [errors, setErrors] = useState({
+        firstName: '',
+        lastName: '',
+        username: '',
+        password: ''
+    })
+    const [submitted, setSubmitted] = useState(false);
     const registering = useSelector(state => state.registration.registering);
     const dispatch = useDispatch();
 
@@ -26,82 +28,71 @@ function RegisterPage() {
         dispatch(userActions.logout());
     }, []);
 
- //   const [loggedIn, setLoggedIn] = useState(false);
-
-    function login() {
-      //setLoggedIn(true);
-      props.parentCallback(true);
-      return dispatch(userActions.register(values));
-
+    function handleChange(e) {
+        const { name, value } = e.target;
+        setUser(user => ({ ...user, [name]: value }));
+        setErrors(validate(user))
     }
 
-    // function handleChange(e) {
-    //     const { name, value } = e.target;
-    //     setUser(user => ({ ...user, [name]: value }));
-    // }
+    function handleSubmit(e) {
+        e.preventDefault();
 
-    // function handleSubmit(e) {
-    //     e.preventDefault();
-
-    //     setSubmitted(true);
-    //     if (user.firstName && user.lastName && user.username && user.password) {
-    //         dispatch(userActions.register(user));
-    //     }
-    // }
+        setErrors(validate(user));
+        console.log(errors)
+        setSubmitted(true);
+        if (user.firstName && user.lastName && user.username && user.password && !errors.password && !errors.username &&!errors.firstName && !errors.lastName) {
+            dispatch(userActions.register(user));
+        }
+        console.log(errors);
+    }
+    console.log(errors);
 
     return (
-        <div className="col-md-8 offset-md-2">
 
-        <div className="wrp-login">
-            <div className="wrp-form">
-
-                <h2>Register</h2>
-                <form name="form" onSubmit={handleSubmit} noValidate>
-                    <div className="form-group">
-                        <label>First Name</label>
-                        <input type="text" name="firstName" value={values.firstName} onChange={handleChange} className={'form-control' + (submitted && !values.firstName ? ' is-invalid' : '')} />
-                        {errors.firstName &&
-                            <div className="invalid-feedback">{errors.firstName}</div>
-                        }
-                    </div>
-                    <div className="form-group">
-                        <label>Last Name</label>
-                        <input type="text" name="lastName" value={values.lastName} onChange={handleChange} className={'form-control' + (submitted && !values.lastName ? ' is-invalid' : '')} />
-                        {errors.lastName &&
-                            <div className="invalid-feedback">{errors.lastName}</div>
-                        }
-                    </div>
-                    {/* <div className="form-group">
-                    <label>Email</label>
-                    <input type="email" name="email" value={email} onChange={handleChange} className={'form-control' + (submitted && !values.email ? ' is-invalid' : '')} />
-                    {submitted && !email &&
-                        <div className="invalid-feedback">Email is required</div>
-                    }
-                </div> */}
-                    <div className="form-group">
-                        <label>Username</label>
-                        <input type="text" name="username" value={values.username} onChange={handleChange} className={'form-control' + (submitted && !values.username ? ' is-invalid' : '')} />
-                        {errors.username &&
-                            <div className="invalid-feedback">{errors.username}</div>
-                        }
-                    </div>
-                    <div className="form-group">
-                        <label>Password</label>
-                        <input type="password" name="password" value={values.password} onChange={handleChange} className={'form-control' + (submitted && !values.password ? ' is-invalid' : '')} />
-                         {errors.password&&
-                         <div className="invalid-feedback">{errors.password}</div>}
-                    </div>
-                    <div className="form-group">
-                        <button className="btn btn-primary">
-                            {registering && <span className="spinner-border spinner-border-sm mr-1"></span>}
-                            Register
+        <div className="col-md-8">
+            <div className="wrp-login">
+                <div className="wrp-form">
+                    <h2>Register</h2>
+                    <form name="form" onSubmit={handleSubmit}>
+                        <div className="form-group">
+                            <label>First Name</label>
+                            <input type="text" name="firstName" value={user.firstName} onChange={handleChange} className={'form-control' + (submitted && !user.firstName ? ' is-invalid' : '')} />
+                            {submitted && errors.firstName &&
+                                <div className="invalid-feedback">{errors.firstName}</div>
+                            }
+                        </div>
+                        <div className="form-group">
+                            <label>Last Name</label>
+                            <input type="text" name="lastName" value={user.lastName} onChange={handleChange} className={'form-control' + (submitted && !user.lastName ? ' is-invalid' : '')} />
+                            {submitted && errors.lastName &&
+                                <div className="invalid-feedback">{errors.lastName}</div>
+                            }
+                        </div>
+                        <div className="form-group">
+                            <label>Username</label>
+                            <input type="text" name="username" value={user.username} onChange={handleChange} className={'form-control' + (submitted && !user.username ? ' is-invalid' : '')} />
+                            {submitted && errors.username &&
+                                <div className="invalid-feedback">{errors.username}</div>
+                            }
+                        </div>
+                        <div className="form-group">
+                            <label>Password</label>
+                            <input type="password" name="password" value={user.password} onChange={handleChange} className={'form-control' + (submitted && !user.password ? ' is-invalid' : '')} />
+                            {submitted && errors.password &&
+                                <div className="invalid-feedback">{errors.password}</div>
+                            }
+                        </div>
+                        <div className="form-group">
+                            <button className="btn btn-primary">
+                                {registering && <span className="spinner-border spinner-border-sm mr-1"></span>}
+                                Register
                     </button>
-                        <Link to="/login" className="btn btn-link">Cancel</Link>
-                    </div>
-                </form>
+                            <Link to="/login" className="btn btn-link">Cancel</Link>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
-</div>
     );
 }
 

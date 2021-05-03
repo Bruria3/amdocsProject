@@ -18,10 +18,10 @@ const defaultProps = {
     pageSize: 10,
     maxPages: 10,
     labels: {
-        first: 'First',
-        last: 'Last',
-        previous: 'Previous',
-        next: 'Next'
+        first: '<<',
+        last: '>>',
+        previous: '<',
+        next: '>'
     }
 }
 
@@ -41,7 +41,7 @@ class Pagination extends React.Component {
                 li: {
                     listStyle: 'none',
                     display: 'inline',
-                    textAlign: 'center'
+                    textAlign: 'center',
                 },
                 a: {
                     cursor: 'pointer',
@@ -105,7 +105,6 @@ class Pagination extends React.Component {
 
         return (
           <>
-          {pager.pages}
             <ul className="pagination" style={styles.ul}>
                 <li className={`page-item first ${pager.currentPage === 1 ? 'disabled' : ''}`} style={styles.li}>
                     <a className="page-link" onClick={() => this.setPage(1)} style={styles.a}>{labels.first}</a>
