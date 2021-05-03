@@ -1,0 +1,8 @@
+.text-primary{
+    background-color: antiquewhite;
+    color:black
+}
+.text-primary :hover{
+    background-color: black;
+    color:antiquewhite
+}

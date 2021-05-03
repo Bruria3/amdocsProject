@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-
+import './home-page.css'
 import { userActions } from '../../_actions';
 
 function HomePage() {
@@ -31,12 +31,14 @@ function HomePage() {
                             {
                                 user.deleting ? <em> - Deleting...</em>
                                 : user.deleteError ? <span className="text-danger"> - ERROR: {user.deleteError}</span>
-                                : <span> - <a onClick={() => handleDeleteUser(user.id)} className="text-primary">Delete</a></span>
+                                : <span> - <button onClick={() => handleDeleteUser(user.id)} className="text-primary">Delete</button></span>
                             }
                         </li>
                     )}
                 </ul>
             }
+            <Link to="/list">go to list
+            </Link>
             <p>
                 <Link to="/login">Logout</Link>
             </p>

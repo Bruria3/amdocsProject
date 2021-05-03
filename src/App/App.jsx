@@ -24,7 +24,6 @@ function App() {
     return (
         <div className="jumbotron">
             <div className="container">
-                <div className="col-md-8 offset-md-2">
                     {alert.message &&
                         <div className={`alert ${alert.type}`}>{alert.message}</div>
                     }
@@ -39,7 +38,6 @@ function App() {
                     </Router>
                 </div>
             </div>
-        </div>
     );
 }
 

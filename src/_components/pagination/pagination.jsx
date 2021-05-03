@@ -105,6 +105,7 @@ class Pagination extends React.Component {
 
         return (
           <>
+          {pager.pages}
             <ul className="pagination" style={styles.ul}>
                 <li className={`page-item first ${pager.currentPage === 1 ? 'disabled' : ''}`} style={styles.li}>
                     <a className="page-link" onClick={() => this.setPage(1)} style={styles.a}>{labels.first}</a>
@@ -124,7 +125,7 @@ class Pagination extends React.Component {
                     <a className="page-link" onClick={() => this.setPage(pager.totalPages)} style={styles.a}>{labels.last}</a>
                 </li>
             </ul>
-            {pager.currentPage} / {pager.totalPages}
+            <div>{pager.currentPage} / {pager.totalPages}</div>
             </>
         );
     }

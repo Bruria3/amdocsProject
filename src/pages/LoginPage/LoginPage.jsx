@@ -3,6 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { userActions } from '../../_actions';
 import './login-page.scss';
+import { NoEmitOnErrorsPlugin } from 'webpack';
 
 function LoginPage() {
     //const { handleSubmit } = useForm(submit); // add validation func, initState as argum
@@ -10,8 +11,9 @@ function LoginPage() {
         username: '',
         password: '',
     });
+
     const [submitted, setSubmitted] = useState(false);
-    const { username, password} = inputs;
+    const { username, password } = inputs;
     const loggingIn = useSelector(state => state.authentication.loggingIn);
     const dispatch = useDispatch();
     const location = useLocation();
@@ -38,8 +40,9 @@ function LoginPage() {
     }
 
     return (
-        <div className="wrp-form">
-             <div className="wrapper">
+        <div className="col-md-8 offset-md-2">
+            <div className="wrp-login">
+                <div className="wrp-form">
                     <h2 className="heading">Login</h2>
                     <form name="form" onSubmit={handleSubmit}>
                         <div className="form-container">
@@ -50,13 +53,14 @@ function LoginPage() {
                                     <div className="invalid-feedback">Username is required</div>
                                 }
                             </div>
-                            
+
                             <div className="form-group">
                                 <label>Password</label>
                                 <input type="password" name="password" value={password} onChange={handleChange} className={'form-control' + (submitted && !password ? ' is-invalid' : '')} />
                                 {submitted && !password &&
                                     <div className="invalid-feedback">Password is required</div>
                                 }
+                               
                             </div>
                             <div className="form-group">
                                 <button className="submit-btn">
@@ -69,8 +73,8 @@ function LoginPage() {
 
                     </form>
                 </div>
+            </div>
         </div>
-           
 
     );
 }
