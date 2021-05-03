@@ -13,9 +13,8 @@ function getAll() {
         headers: { 'Content-Type': 'application/json' },
     };
 
-    return fetch(`${config.listUrl}/todos`, requestOptions)
+    return fetch(`${config.listUrl}/api/json/get/EJ0BKddw5`, requestOptions)
         .then(handleResponse)
-        .then(addMockPositions);
 }
 
 function getById(id) {
@@ -24,7 +23,7 @@ function getById(id) {
         headers: { 'Content-Type': 'application/json' },
     };
 
-    return fetch(`${config.listUrl}/todos/${id}`, requestOptions).then(handleResponse);
+    return fetch(`${config.listUrl}/api/json/get/EJ0BKddw5/${id}`, requestOptions).then(handleResponse);
 }
 
 function update(todo) {
@@ -34,7 +33,7 @@ function update(todo) {
         body: JSON.stringify(todo)
     };
 
-    return fetch(`${config.listUrl}/todos/${todo.id}`, requestOptions).then(handleResponse);;
+    return fetch(`${config.listUrl}/api/json/get/EJ0BKddw5/${todo.id}`, requestOptions).then(handleResponse);;
 }
 
 // prefixed function name with underscore because delete is a reserved word in javascript
@@ -43,7 +42,7 @@ function _delete(id) {
         method: 'DELETE',
     };
 
-    return fetch(`${config.listUrl}/todos/${id}`, requestOptions);
+    return fetch(`${config.listUrl}/api/json/get/EJ0BKddw5/${id}`, requestOptions);
 }
 
 
@@ -54,7 +53,6 @@ function handleResponse(response) {
             const error = (data && data.message) || response.statusText;
             return Promise.reject(error);
         }
-
         return data;
     });
 }

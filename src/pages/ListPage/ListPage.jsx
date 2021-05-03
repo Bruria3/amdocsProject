@@ -4,7 +4,6 @@ import Map from "../../_components/map/map";
 import { listActions } from '../../_actions';
 import Pagination from '../../_components/pagination/pagination';
 import MaterialTable from 'material-table'
-//import { options } from 'colorette';
 
 function ListPage() {
     const list = useSelector(state => state.list);
@@ -24,21 +23,19 @@ function ListPage() {
         return currentItems.find(item=>item.id===id);
     }
 
-    function onRowSelected(id) {
-        const item = getItemById(id);
+    function getItemByEmail(email){
+        return currentItems.find(item=>item.email===email)
+    }
+
+    function onRowSelected(email) {
+        const item = getItemByEmail(email);
         const mapPositions = [
             {
-                key: item.id,
-                lat: item.positions[0].lat,
-                lng: item.positions[0].lng,
-                title: `userId ${item.userId}`,
-                description: item.title,
-            }, {
-                key: item.id+1,
-                lat: item.positions[1].lat,
-                lng: item.positions[1].lng,
-                title: `userId ${item.userId}`,
-                description: item.title,
+                key: item._id,
+                lat: +item.latitude,
+                lng: +item.longitude,
+                title: item.company,
+                description: item.address,
             }
         ];
         console.log("selectedPositions: ", selectedPositions)
@@ -58,21 +55,22 @@ function ListPage() {
                     {list.loading && <em>Loading items...</em>}
                     {list.error && <span className="text-danger">ERROR: {list.error}</span>}
                     {currentItems &&
-                        <div className="col-9">
+                        <div className="col-7">
                             <MaterialTable
                                 columns={[
-                                    { title: 'id', field: 'id', type: 'string' },
-                                    { title: 'title', field: 'title', type: 'string' }
+                                    { title: 'First name', field: 'firstName', type: 'string' },
+                                    { title: 'Last name', field: 'lastName', type: 'string' },
+                                    { title: 'Company', field: 'company', type: 'string' },
+                                    { title: 'Email', field: 'email', type: 'string' }
                                 ]}
-                                data={currentItems.map((item) => { return { id: item.id, title: item.title } })}
-                                title="Data"
+                                data={currentItems.map((item) => { return { firstName: item.name.first, lastName: item.name.last, company:item.company, email:item.email } })}
+                                title="People"
                                 onRowClick={(event, rowData) => {
-                                    console.log("item: " + event.target)
-                                         console.log("rowData: " + rowData)
-                                    onRowSelected(rowData.id);
+                                    onRowSelected(rowData.email);
                                 }}
                             />
                         </div>
+
                         // <ul>
                         //     {currentItems.map((item, index) =>
                         //         <li key={item.id}>
@@ -81,14 +79,16 @@ function ListPage() {
                         //     )}
                         // </ul>
                     }
-                    <div className="col-3">
+
+                    <div className="col-1">
                         <div className="wrp-map">
                         {selectedPositions && <Map positions={selectedPositions} />}
                         </div>
                     </div>
                 </div>
+                    <Pagination items={list.items} onChangePage={onChangePage} />
+
             </div>
-            <Pagination items={list.items} onChangePage={onChangePage} />
         </>
 
     );

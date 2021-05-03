@@ -13,19 +13,20 @@ function MapPosition({ positions }) {
   useEffect(() => {
     const listener = (e) => {
       if (e.key === "Escape") {
-        setIsPopup(false);
+        setSelectedPosition(null);
       }
     };
     window.addEventListener("keydown", listener);
-
+    console.log("positions: "+positions.lat+" , "+positions.lng)
     return () => {
       window.removeEventListener("keydown", listener);
     };
+    
   }, []);
   return (
     <GoogleMap
       key={new Date().getTime()}
-      defaultZoom={15}
+      defaultZoom={1}
       defaultCenter={{ lat: 43.6561, lng: -79.3802 }}
     >
       {positions.map((position) => {
@@ -40,7 +41,7 @@ function MapPosition({ positions }) {
               setSelectedPosition(position);
             }}
             icon={{
-              url: "https://img.icons8.com/color/48/000000/map-pin.png",
+              url: "https://image.flaticon.com/icons/png/128/149/149226.png",
               scaledSize: new window.google.maps.Size(50, 50),
             }}
           />
@@ -58,7 +59,7 @@ function MapPosition({ positions }) {
           }}
         >
           <div>
-            <h2>{selectedPosition.title}</h2>
+            <h1>{selectedPosition.title}</h1>
             <p>{selectedPosition.description}</p>
           </div>
         </InfoWindow>
